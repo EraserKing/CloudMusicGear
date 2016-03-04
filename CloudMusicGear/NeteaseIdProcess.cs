@@ -47,19 +47,7 @@ namespace CloudMusicGear
         /// <returns></returns>
         private static string GenerateUrl(string dfsId)
         {
-            string url = $"http://m{DateTime.Now.Second % 2 + 1}.music.126.net/{GetEncId(dfsId)}/{dfsId}.mp3";
-            if (Config.UseOverseas)
-            {
-                if (Config.UseOverseasCdn)
-                {
-                    url = url.Replace("http://m", "http://p");
-                }
-                else
-                {
-                    url = url.Replace("http://m", $"http://{Config.OverseasCdnAddress}/m");
-                }
-            }
-            return url;
+            return $"http://m{DateTime.Now.Second % 2 + 1}.music.126.net/{GetEncId(dfsId)}/{dfsId}.mp3";
         }
 
         /// <summary>

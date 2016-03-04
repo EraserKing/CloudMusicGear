@@ -9,9 +9,8 @@
             PlaybackQuality = Properties.Settings.Default.PlaybackQuality;
             ForceDownloadQuality = Properties.Settings.Default.ForceDownloadQuality;
             DownloadQuality = Properties.Settings.Default.DownloadQuality;
-            UseOverseas = Properties.Settings.Default.UseOverseas;
-            UseOverseasCdn = Properties.Settings.Default.UseOverseasCdn;
-            OverseasCdnAddress = Properties.Settings.Default.OverseasCdnAddress;
+            ForceIp = Properties.Settings.Default.ForceIp;
+            IpAddress = Properties.Settings.Default.IpAddress;
             UsePac = Properties.Settings.Default.UsePac;
             PacPort = Properties.Settings.Default.PacPort;
             UseProxy = Properties.Settings.Default.UseProxy;
@@ -27,9 +26,8 @@
             Properties.Settings.Default.PlaybackQuality = PlaybackQuality;
             Properties.Settings.Default.ForceDownloadQuality = ForceDownloadQuality;
             Properties.Settings.Default.DownloadQuality = DownloadQuality;
-            Properties.Settings.Default.UseOverseas = UseOverseas;
-            Properties.Settings.Default.UseOverseasCdn = UseOverseasCdn;
-            Properties.Settings.Default.OverseasCdnAddress = OverseasCdnAddress;
+            Properties.Settings.Default.ForceIp = ForceIp;
+            Properties.Settings.Default.IpAddress = IpAddress;
             Properties.Settings.Default.UsePac = UsePac;
             Properties.Settings.Default.PacPort = PacPort;
             Properties.Settings.Default.UseProxy = UseProxy;
@@ -47,9 +45,8 @@
         public static bool ForceDownloadQuality { get; set; } = false;
         public static string DownloadQuality { get; set; } = string.Empty;
 
-        public static bool UseOverseas { get; set; } = false;
-        public static bool UseOverseasCdn { get; set; } = false;
-        public static string OverseasCdnAddress { get; set; } = string.Empty;
+        public static bool ForceIp { get; set; } = false;
+        public static string IpAddress { get; set; } = string.Empty;
 
         public static bool UsePac { get; set; } = false;
         public static decimal PacPort = 3413;

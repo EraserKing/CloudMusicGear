@@ -17,15 +17,6 @@
     <Setting Name="DownloadQuality" Type="System.String" Scope="User">
       <Value Profile="(Default)">HQ / 320000</Value>
     </Setting>
-    <Setting Name="UseOverseas" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="UseOverseasCdn" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="OverseasCdnAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="UsePac" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -43,6 +34,12 @@
     </Setting>
     <Setting Name="AutoMinimize" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ForceIp" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IpAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">111.161.66.70</Value>
     </Setting>
   </Settings>
 </SettingsFile>

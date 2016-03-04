@@ -2,7 +2,7 @@
 
 Unblock Cloud Music Windows Desktop Client / UWP Client.
 
-A total rewrite to Unblock163MusicClient[https://github.com/EraserKing/Unblock163MusicClient/releases] :)
+A total rewrite to Unblock163MusicClient [https://github.com/EraserKing/Unblock163MusicClient/releases] :)
 
 ## Usage (Windows Desktop Client)
 
@@ -23,9 +23,8 @@ As it's not possible to assign a proxy for a single UWP client, a PAC is require
 
 Notes:
 
-1. **Before first use, you must enable lookback access for the client**
-`checknetisolation loopbackexempt -a -n=1F8B0F94.122165AE053F_j2p0p5q0044a6` (Run as administration, for current version)
-Or download a GUI program here [https://loopback.codeplex.com/] and enables the UWP client.
+1. **Before first use, you must enable lookback access for the client** 
+`checknetisolation loopbackexempt -a -n=1F8B0F94.122165AE053F_j2p0p5q0044a6` (Run as administration, for current version), or download a GUI program here [https://loopback.codeplex.com/] and enables the UWP client.
 
 2. After you have set PAC properly, you may let the desktop client use Internet Explorer's proxy settings, and it should also be working fine.
 
@@ -61,8 +60,7 @@ function FindProxyForURL(url, host) {
 1. Port: The HTTP proxy port.
 2. Override playback quality: **Recommended**. It takes higher priority than the settings in the client and setting it here prevents some potential issues.
 3. Override download quality: **Recommended**. It takes higher priority than the settings in the client and setting it here prevents some potential issues.
-4. Overseas: Overseas mode. Replaces m* servers with p* servers. *Not sure if it's working now*
-5. CDN mode: Assign CDN for overseas mode. Replace m* servers with the CDN here. *Not sure if it's working now*
+4. Override server IP: Enable it when you get a wrong IP address for the server. This is often happening for oversea users. Also, you can use it when you're redirected to a wrong CDN server.
 6. Enable PAC: Enable a tiny HTTP server to store PAC file for browsers.
 7. PAC port: Set the HTTP server port for PAC file.
 8. Proxy: Set upstream HTTP proxy. Example:`127.0.0.1:1080`

@@ -28,6 +28,14 @@ namespace CloudMusicGear
             s["X-OverrideGateway"] = Config.ProxyAddress;
         }
 
+        private static void NeedSetIp(Session s)
+        {
+            if (s.fullUrl.EndsWith(",mp3"))
+            {
+                s["X-OverrideHost"] = Config.IpAddress;
+            }
+        }
+
         public static void Start()
         {
             LogEntry("Starting proxy...");
@@ -38,6 +46,10 @@ namespace CloudMusicGear
             if (Config.UseProxy)
             {
                 FiddlerApplication.BeforeRequest += NeedSetProxy;
+            }
+            if (Config.ForceIp)
+            {
+                FiddlerApplication.BeforeRequest += NeedSetIp;
             }
             FiddlerApplication.BeforeResponse += OnResponse;
             LogEntry($"Proxy started, listening at port {Config.Port}");
@@ -60,6 +72,10 @@ namespace CloudMusicGear
             if (Config.UseProxy)
             {
                 FiddlerApplication.BeforeRequest -= NeedSetProxy;
+            }
+            if (Config.ForceIp)
+            {
+                FiddlerApplication.BeforeRequest -= NeedSetIp;
             }
             FiddlerApplication.BeforeResponse -= OnResponse;
             FiddlerApplication.Shutdown();
@@ -203,6 +219,7 @@ namespace CloudMusicGear
             JObject root = JObject.Parse(originalContent);
             string songId = root["data"]["id"].Value<string>();
             string newUrl = NeteaseIdProcess.GetUrl(songId, ConvertQuality(Config.DownloadQuality, "nQuality"));
+            LogEntry($"New URL is {newUrl}");
             root["data"]["url"] = newUrl;
             root["data"]["br"] = ConvertQuality(Config.DownloadQuality, "Bitrate");
             root["data"]["code"] = "200";
@@ -246,6 +263,7 @@ namespace CloudMusicGear
             JObject root = JObject.Parse(originalContent);
             string songId = root["data"][0]["id"].Value<string>();
             string newUrl = NeteaseIdProcess.GetUrl(songId, ConvertQuality(Config.PlaybackQuality, "nQuality"));
+            LogEntry($"New URL is {newUrl}");
             root["data"][0]["url"] = newUrl;
             root["data"][0]["br"] = ConvertQuality(Config.PlaybackQuality, "Bitrate");
             root["data"][0]["code"] = "200";
