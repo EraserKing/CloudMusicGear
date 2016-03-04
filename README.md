@@ -2,6 +2,8 @@
 
 Unblock Cloud Music Windows Desktop Client / UWP Client.
 
+Current build status: [![Build status](https://ci.appveyor.com/api/projects/status/i33kph8k1bj5r912?svg=true)](https://ci.appveyor.com/project/EraserKing/cloudmusicgear)
+
 A total rewrite to Unblock163MusicClient [https://github.com/EraserKing/Unblock163MusicClient/releases] :)
 
 ## Usage (Windows Desktop Client)
