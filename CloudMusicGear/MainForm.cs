@@ -1,6 +1,7 @@
 ﻿using CloudMusicGear.Properties;
 using System;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace CloudMusicGear
 {
@@ -9,6 +10,8 @@ namespace CloudMusicGear
         public MainForm()
         {
             InitializeComponent();
+
+            ThreadPool.RegisterWaitForSingleObject(Program.ProgramStarted, OnProgramStarted, null, -1, false);
         }
 
         private void portNum_ValueChanged(object sender, EventArgs e)
@@ -179,6 +182,12 @@ namespace CloudMusicGear
         private void autoMinimize_CheckedChanged(object sender, EventArgs e)
         {
             Config.AutoMinimize = autoMinimize.Checked;
+        }
+
+        private void OnProgramStarted(object state, bool timeout)
+        {
+            Show();
+            WindowState = FormWindowState.Normal;
         }
     }
 }
