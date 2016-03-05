@@ -106,7 +106,7 @@ namespace CloudMusicGear
                     // It should include album / playlist / artist / search pages.
                     if (url.Contains("/eapi/v3/song/detail/") || url.Contains("/eapi/v1/album/") || url.Contains("/eapi/v3/playlist/detail") ||
                         url.Contains("/eapi/batch") || url.Contains("/eapi/cloudsearch/pc") || url.Contains("/eapi/v1/artist") ||
-                        url.Contains("/eapi/v1/search/get"))
+                        url.Contains("/eapi/v1/search/get") || url.Contains("/eapi/song/enhance/privilege"))
                     {
                         string modified = ModifyDetailApi(s.GetResponseBodyAsString());
                         s.utilSetResponseBody(modified);
