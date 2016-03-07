@@ -186,8 +186,7 @@ namespace CloudMusicGear
 
         private void OnProgramStarted(object state, bool timeout)
         {
-            Show();
-            WindowState = FormWindowState.Normal;
+            MessageBox.Show("CloudMusicGear is already running.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }
