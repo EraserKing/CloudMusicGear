@@ -30,7 +30,7 @@ namespace CloudMusicGear
 
         private static void NeedSetIp(Session s)
         {
-            if (s.fullUrl.EndsWith(",mp3"))
+            if (s.fullUrl.EndsWith(".mp3"))
             {
                 s["X-OverrideHost"] = Config.IpAddress;
             }
