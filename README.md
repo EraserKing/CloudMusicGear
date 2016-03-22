@@ -1,3 +1,5 @@
+**This project is not supposed to be working now. All pull requests and issues will be closed unless it goes back to working.**
+
 # CloudMusicGear
 
 Unblock Cloud Music Windows Desktop Client / UWP Client.
