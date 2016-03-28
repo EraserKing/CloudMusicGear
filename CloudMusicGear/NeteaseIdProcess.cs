@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -11,16 +12,21 @@ namespace CloudMusicGear
     /// </summary>
     public static class NeteaseIdProcess
     {
+        private static readonly Dictionary<string, string> SongDetailHeader = new Dictionary<string, string>()
+        {
+            { "cookie", "os=pc" }
+        };
+
         /// <summary>
         /// Get song url from original song ID.
         /// </summary>
         /// <param name="songId">Song ID.</param>
-        /// <param name="nQuality">Quality. Accepts: bMusic, lMusic, mMusic, hMusic.</param>
+        /// <param name="nQuality">Quality. Accepts: b, l, m, h.</param>
         /// <returns>Song URL.</returns>
         public static string GetUrl(string songId, string nQuality)
         {
-            string data = $"c=[{{\"id\":\"{songId}\",\"v\":0}}]";
-            string page = Utility.Post("http://music.163.com/api/v2/song/detail", data);
+            string data = $@"c=[{{""id"":""{songId}"",""v"":0}}]";
+            string page = Utility.PostPage("http://music.163.com/api/v2/song/detail", data, SongDetailHeader);
             string dfsId = GetDfsId(page, nQuality);
             return GenerateUrl(dfsId);
         }

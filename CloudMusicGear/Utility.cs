@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Windows.Forms;
 
 namespace CloudMusicGear
 {
@@ -12,21 +14,21 @@ namespace CloudMusicGear
         /// </summary>
         /// <param name="url">URL to get.</param>
         /// <returns>Content.</returns>
-        public static string GetPage(string url)
+        public static string GetPage(string url, Dictionary<string, string> headers = null)
         {
-            try
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "GET";
+            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            if (headers != null)
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.Method = "GET";
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                return new StreamReader(response.GetResponseStream(), Encoding.UTF8).ReadToEnd();
+                foreach (string key in headers.Keys)
+                {
+                    request.Headers[key] = headers[key];
+                }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(url);
-                Console.WriteLine(ex.Message);
-                return "";
-            }
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            return new StreamReader(response.GetResponseStream(), Encoding.UTF8).ReadToEnd();
         }
 
         /// <summary>
@@ -35,31 +37,28 @@ namespace CloudMusicGear
         /// <param name="url">URL to post.</param>
         /// <param name="data">data to post</param>
         /// <returns></returns>
-        public static string Post(string url, string data)
+        public static string PostPage(string url, string data, Dictionary<string, string> headers = null)
         {
-            try
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            if (headers != null)
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.Headers.Add("Cookie", "os=pc");
-
-                var bytes = Encoding.UTF8.GetBytes(data);
-                using (var stream = request.GetRequestStream())
+                foreach (string key in headers.Keys)
                 {
-                    stream.Write(bytes, 0, bytes.Length);
+                    request.Headers[key] = headers[key];
                 }
-
-
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                return new StreamReader(response.GetResponseStream(), Encoding.UTF8).ReadToEnd();
             }
-            catch (Exception ex)
+
+            var bytes = Encoding.UTF8.GetBytes(data);
+            using (var stream = request.GetRequestStream())
             {
-                Console.WriteLine(url);
-                Console.WriteLine(ex.Message);
-                return "";
+                stream.Write(bytes, 0, bytes.Length);
             }
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            return new StreamReader(response.GetResponseStream(), Encoding.UTF8).ReadToEnd();
         }
     }
 }

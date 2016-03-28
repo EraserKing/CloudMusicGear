@@ -1,5 +1,3 @@
-**This project is not supposed to be working now. All pull requests and issues will be closed unless it goes back to working.**
-
 # CloudMusicGear
 
 Unblock Cloud Music Windows Desktop Client / UWP Client.
@@ -28,18 +26,20 @@ As it's not possible to assign a proxy for a single UWP client, a PAC is require
 Notes:
 
 1. **Before first use, you must enable lookback access for the client** 
-`checknetisolation loopbackexempt -a -n=1F8B0F94.122165AE053F_j2p0p5q0044a6` (Run as administration, for current version), or download a GUI program here [https://loopback.codeplex.com/] and enables the UWP client.
-
+   
+   `checknetisolation loopbackexempt -a -n=1F8B0F94.122165AE053F_j2p0p5q0044a6` (Run as administration, for current version), or download a GUI program here [https://loopback.codeplex.com/] and enables the UWP client.
+   
 2. After you have set PAC properly, you may let the desktop client use Internet Explorer's proxy settings, and it should also be working fine.
-
+   
 3. The PAC file only redirects the traffic to cloud music servers and does not hijack any other traffic. Your credit card information and bank password is still unknown to me :)
-
+   
 4. If you have something other program which sets system proxy by PAC, or you need PAC set to access Internet, you should not replace the PAC settings simply.
 
 Instead, you should edit your PAC file and try to insert `if (host == "music.163.com") { return "PROXY 127.0.0.1:3412"; }` into `function FindProxyForURL`.
 
 For example, a typical PAC file:
-```
+
+``` 
 function FindProxyForURL(url, host) {
     var suffix;
     var pos = host.lastIndexOf('.');
@@ -48,7 +48,8 @@ function FindProxyForURL(url, host) {
 ```
 
 You should modify it to 
-```
+
+``` 
 function FindProxyForURL(url, host) {
     if (host == "music.163.com") { return "PROXY 127.0.0.1:3412"; }
     var suffix;
@@ -65,9 +66,9 @@ function FindProxyForURL(url, host) {
 2. Override playback quality: **Recommended**. It takes higher priority than the settings in the client and setting it here prevents some potential issues.
 3. Override download quality: **Recommended**. It takes higher priority than the settings in the client and setting it here prevents some potential issues.
 4. Override server IP: Enable it when you get a wrong IP address for the server. This is often happening for oversea users. Also, you can use it when you're redirected to a wrong CDN server.
-6. Enable PAC: Enable a tiny HTTP server to store PAC file for browsers.
-7. PAC port: Set the HTTP server port for PAC file.
-8. Proxy: Set upstream HTTP proxy. Example:`127.0.0.1:1080`
+5. Enable PAC: Enable a tiny HTTP server to store PAC file for browsers.
+6. PAC port: Set the HTTP server port for PAC file.
+7. Proxy: Set upstream HTTP proxy. Example:`127.0.0.1:1080`
 
 ## Download
 
@@ -80,12 +81,9 @@ See [https://github.com/EraserKing/CloudMusicGear/releases]
 
 ## Open issues
 
-Please report the following information:
+Please report the following information according to the template.
 
-* Operating system
-* Song / Album / Playlist name (how I can locate to that song)
-* Whether the issue happens on specific songs, or all songs
-* Whether it can be reproduced on web client for the same song
+
 
 ## Building
 
@@ -100,3 +98,5 @@ Under Visual Studio 2015.
 ## Thanks
 
 Thanks yanunon for his API analysis! [https://github.com/yanunon/NeteaseCloudMusic]
+
+Thanks bin456789 for his new detail API! [https://github.com/bin456789]

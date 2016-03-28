@@ -235,7 +235,7 @@ namespace CloudMusicGear
         /// <returns>The modified API result.</returns>
         private static string ModifyDetailApi(string originalContent)
         {
-            LogEntry("Hack detail API");
+            LogEntry("Song Detail API Injected");
 
             string modified = originalContent;
             //Playback bitrate
@@ -259,7 +259,7 @@ namespace CloudMusicGear
         /// <returns>The modified API result.</returns>
         private static string ModifyPlayerApi(string originalContent)
         {
-            LogEntry("Hack player API");
+            LogEntry("Player API Injected");
 
             JObject root = JObject.Parse(originalContent);
             string songId = root["data"][0]["id"].Value<string>();
