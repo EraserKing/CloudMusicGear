@@ -317,7 +317,7 @@ namespace CloudMusicGear
                     return fullQuality.Substring(5);
 
                 case "nQuality":
-                    return fullQuality.Substring(0, 1).ToLower() + "Music";
+                    return fullQuality.Substring(0, 1).ToLower();
 
                 case "Full":
                     return fullQuality;

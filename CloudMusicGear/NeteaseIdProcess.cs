@@ -19,7 +19,9 @@ namespace CloudMusicGear
         /// <returns>Song URL.</returns>
         public static string GetUrl(string songId, string nQuality)
         {
-            string dfsId = GetDfsId(Utility.GetPage($"http://music.163.com/api/song/detail?id={songId}&ids=[{songId}]"), nQuality);
+            string data = $"c=[{{\"id\":\"{songId}\",\"v\":0}}]";
+            string page = Utility.Post("http://music.163.com/api/v2/song/detail", data);
+            string dfsId = GetDfsId(page, nQuality);
             return GenerateUrl(dfsId);
         }
 
@@ -62,24 +64,24 @@ namespace CloudMusicGear
 
             // Downgrade if we don't have higher quality...
 
-            if (nQuality == "hMusic" && !root["songs"][0]["hMusic"].HasValues)
+            if (nQuality == "h" && !root["songs"][0]["h"].HasValues)
             {
-                nQuality = "mMusic";
+                nQuality = "m";
             }
-            if (nQuality == "mMusic" && !root["songs"][0]["mMusic"].HasValues)
+            if (nQuality == "m" && !root["songs"][0]["m"].HasValues)
             {
-                nQuality = "lMusic";
+                nQuality = "l";
             }
-            if (nQuality == "lMusic" && !root["songs"][0]["lMusic"].HasValues)
+            if (nQuality == "l" && !root["songs"][0]["l"].HasValues)
             {
-                nQuality = "bMusic";
-            }
-
-            if (nQuality == "bMusic" && !root["songs"][0]["bMusic"].HasValues)
-            {
+                nQuality = "b";
             }
 
-            return root["songs"][0][nQuality]["dfsId"].Value<string>();
+            if (nQuality == "b" && !root["songs"][0]["b"].HasValues)
+            {
+            }
+
+            return root["songs"][0][nQuality]["fid"].Value<string>();
         }
     }
 }
