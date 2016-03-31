@@ -104,8 +104,10 @@ namespace CloudMusicGear
                     LogEntry($"Accessing URL {url}");
 
                     // It should include album / playlist / artist / search pages.
-                    if (url.Contains("/eapi/v3/song/detail/") || url.Contains("/eapi/v1/album/") || url.Contains("/eapi/v3/playlist/detail") ||
-                        url.Contains("/eapi/batch") || url.Contains("/eapi/cloudsearch/pc") || url.Contains("/eapi/v1/artist") ||
+                    if (url.Contains("/eapi/v3/song/detail/") || url.Contains("/eapi/v1/album/") ||
+                        url.Contains("/eapi/v3/playlist/detail") ||
+                        url.Contains("/eapi/batch") || url.Contains("/eapi/cloudsearch/pc") ||
+                        url.Contains("/eapi/v1/artist") ||
                         url.Contains("/eapi/v1/search/get") || url.Contains("/eapi/song/enhance/privilege") ||
                         url.Contains("/eapi/v1/discovery/new/songs") || url.Contains("/eapi/v1/play/record"))
                     {
@@ -150,7 +152,8 @@ namespace CloudMusicGear
                         }
                         else
                         {
-                            LogEntry($"Playback bitrate is not changed. The song URL is {GetPlayResponseUrl(s.GetResponseBodyAsString())}");
+                            LogEntry(
+                                $"Playback bitrate is not changed. The song URL is {GetPlayResponseUrl(s.GetResponseBodyAsString())}");
                         }
                     }
 
@@ -200,10 +203,15 @@ namespace CloudMusicGear
                         }
                         else
                         {
-                            LogEntry($"Download bitrate is not changed. The song URL is {GetDownloadResponseUrl(s.GetResponseBodyAsString())}");
+                            LogEntry(
+                                $"Download bitrate is not changed. The song URL is {GetDownloadResponseUrl(s.GetResponseBodyAsString())}");
                         }
                     }
                 }
+            }
+            else
+            {
+                LogEntry($"Error Occured: {url}, StatusCode: {responseStatusCode}");
             }
         }
 
@@ -315,8 +323,6 @@ namespace CloudMusicGear
         /// <returns>The modified API result.</returns>
         private static string ModifyDetailApi(string originalContent)
         {
-            LogEntry("Song Detail API Injected");
-
             string modified = originalContent;
             //Playback bitrate
             modified = RexPl.Replace(modified, $"\"pl\":{ConvertQuality(Config.PlaybackQuality, "Bitrate")}");
@@ -329,6 +335,8 @@ namespace CloudMusicGear
 
             //Can favorite
             modified = RexSubp.Replace(modified, "\"subp\":1");
+
+            LogEntry("Song Detail API Injected");
             return modified;
         }
 
@@ -339,8 +347,6 @@ namespace CloudMusicGear
         /// <returns>The modified API result.</returns>
         private static string ModifyPlayerApi(string originalContent)
         {
-            LogEntry("Player API Injected");
-
             JObject root = JObject.Parse(originalContent);
             string songId = root["data"][0]["id"].Value<string>();
             string newUrl = NeteaseIdProcess.GetUrl(songId, ConvertQuality(Config.PlaybackQuality, "nQuality"));
@@ -349,6 +355,7 @@ namespace CloudMusicGear
             root["data"][0]["br"] = ConvertQuality(Config.PlaybackQuality, "Bitrate");
             root["data"][0]["code"] = "200";
 
+            LogEntry("Player API Injected");
             return root.ToString(Formatting.None);
         }
 
