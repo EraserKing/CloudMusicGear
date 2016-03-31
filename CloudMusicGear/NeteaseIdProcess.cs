@@ -55,7 +55,7 @@ namespace CloudMusicGear
         /// <returns></returns>
         private static string GenerateUrl(string dfsId)
         {
-            return $"http://m{DateTime.Now.Second % 2 + 1}.music.126.net/{GetEncId(dfsId)}/{dfsId}.mp3";
+            return $"http://m1.music.126.net/{GetEncId(dfsId)}/{dfsId}.mp3";
         }
 
         /// <summary>

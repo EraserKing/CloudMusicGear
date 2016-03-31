@@ -20,7 +20,7 @@ namespace CloudMusicGear
         private static void NeedBufferResponse(Session s)
         {
             // We just need to hack APIs and so let other HTTP requests pass directly. API responses must be fully buffered (and then modified).
-            s.bBufferResponse = s.fullUrl.Contains("http://music.163.com/eapi/");
+            s.bBufferResponse = s.fullUrl.StartsWith("http://music.163.com/eapi/");
         }
 
         private static void NeedSetProxy(Session s)
@@ -92,28 +92,37 @@ namespace CloudMusicGear
 
         private static void OnResponse(Session s)
         {
-            int responseStatusCode = s.responseCode;
-            string responseContentType = s.ResponseHeaders["Content-Type"].Trim().ToLower();
-            string url = s.fullUrl;
+            if (s.responseCode == 404)
+            {
+                LogEntry("Response code for {s.fullUrl} is 404. This URL may be unavailable now.");
+            }
 
-            if (responseStatusCode == 200)
+            if (s.host != "music.163.com" || !s.PathAndQuery.StartsWith("/eapi/"))
+            {
+                return;
+            }
+
+            string responseContentType = s.ResponseHeaders["Content-Type"].Trim().ToLower();
+            string path = s.PathAndQuery;
+
+            if (s.responseCode == 200)
             {
                 // Most APIs are returned in text/plain but searching songs page is returned in JSON. Don't forget this!
                 if (responseContentType.Contains("text/plain") || responseContentType.Contains("application/json"))
                 {
-                    LogEntry($"Accessing URL {url}");
+                    LogEntry($"Accessing URL {s.fullUrl}");
 
                     // It should include album / playlist / artist / search pages.
-                    if (url.Contains("/eapi/v3/song/detail/") || url.Contains("/eapi/v1/album/") || url.Contains("/eapi/v3/playlist/detail") ||
-                        url.Contains("/eapi/batch") || url.Contains("/eapi/cloudsearch/pc") || url.Contains("/eapi/v1/artist") ||
-                        url.Contains("/eapi/v1/search/get") || url.Contains("/eapi/song/enhance/privilege") ||
-                        url.Contains("/eapi/v1/discovery/new/songs") || url.Contains("/eapi/v1/play/record"))
+                    if (path.StartsWith("/eapi/v3/song/detail/") || path.StartsWith("/eapi/v1/album/") || path.StartsWith("/eapi/v3/playlist/detail") ||
+                        path.StartsWith("/eapi/batch") || path.StartsWith("/eapi/cloudsearch/pc") || path.StartsWith("/eapi/v1/artist") ||
+                        path.StartsWith("/eapi/v1/search/get") || path.StartsWith("/eapi/song/enhance/privilege") ||
+                        path.StartsWith("/eapi/v1/discovery/new/songs") || path.StartsWith("/eapi/v1/play/record"))
                     {
                         string modified = ModifyDetailApi(s.GetResponseBodyAsString());
                         s.utilSetResponseBody(modified);
                     }
                     // This is called when player tries to get the URL for a song.
-                    else if (url.Contains("/eapi/song/enhance/player/url"))
+                    else if (path.StartsWith("/eapi/song/enhance/player/url"))
                     {
                         // If the song URL is returned properly, or the returned quality is higher than the forced quality, we do not override the song URL.
                         // This is designed as premium users may require lossless audio file.
@@ -155,14 +164,14 @@ namespace CloudMusicGear
                     }
 
                     // When we try to download a song, the API tells whether it exceeds the limit. Of course no!
-                    else if (url.Contains("/eapi/song/download/limit"))
+                    else if (path.StartsWith("/eapi/song/download/limit"))
                     {
                         string modified = ModifyDownloadLimitApi();
                         s.utilSetResponseBody(modified);
                     }
 
                     // Similar to the player URL API, but used for download.
-                    else if (url.Contains("/eapi/song/enhance/download/url"))
+                    else if (path.StartsWith("/eapi/song/enhance/download/url"))
                     {
                         // If the song URL is returned properly, or the returned quality is higher than the forced quality, we do not override the song URL.
                         // This is designed as premium users may require lossless audio file.
