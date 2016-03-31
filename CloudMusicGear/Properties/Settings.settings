@@ -41,5 +41,8 @@
     <Setting Name="IpAddress" Type="System.String" Scope="User">
       <Value Profile="(Default)">111.161.66.70</Value>
     </Setting>
+    <Setting Name="IpAddressList" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

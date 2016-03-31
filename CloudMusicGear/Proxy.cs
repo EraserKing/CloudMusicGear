@@ -211,7 +211,21 @@ namespace CloudMusicGear
             }
             else
             {
-                LogEntry($"Error Occured: {url}, StatusCode: {responseStatusCode}");
+                //LogEntry($"Error Occured: {url}, StatusCode: {responseStatusCode}");
+                if (url.EndsWith(".mp3") && Config.ForceIp)
+                {
+                    int? ipIndex = null;
+                    try
+                    {
+                        ipIndex = Config.IpAddressList.IndexOf(Config.IpAddress) + 1;
+                        if (ipIndex == Config.IpAddressList.Count) ipIndex = 0;
+                    }
+                    catch
+                    {
+                        if (Config.IpAddressList.Count > 0) ipIndex = 0;
+                    }
+                    if (ipIndex != null) Config.IpAddress = Config.IpAddressList[ipIndex.Value];
+                }
             }
         }
 

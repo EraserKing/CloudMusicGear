@@ -178,5 +178,16 @@ namespace CloudMusicGear.Properties {
                 this["IpAddress"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection IpAddressList {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["IpAddressList"]));
+            }
+            set {
+                this["IpAddressList"] = value;
+            }
+        }
     }
 }
