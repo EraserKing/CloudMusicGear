@@ -1,4 +1,6 @@
-﻿namespace CloudMusicGear
+﻿using System.Collections.Specialized;
+
+namespace CloudMusicGear
 {
     internal static class Config
     {
@@ -11,6 +13,7 @@
             DownloadQuality = Properties.Settings.Default.DownloadQuality;
             ForceIp = Properties.Settings.Default.ForceIp;
             IpAddress = Properties.Settings.Default.IpAddress;
+            IpAddressList = Properties.Settings.Default.IpAddressList;
             UsePac = Properties.Settings.Default.UsePac;
             PacPort = Properties.Settings.Default.PacPort;
             UseProxy = Properties.Settings.Default.UseProxy;
@@ -28,6 +31,7 @@
             Properties.Settings.Default.DownloadQuality = DownloadQuality;
             Properties.Settings.Default.ForceIp = ForceIp;
             Properties.Settings.Default.IpAddress = IpAddress;
+            Properties.Settings.Default.IpAddressList = IpAddressList;
             Properties.Settings.Default.UsePac = UsePac;
             Properties.Settings.Default.PacPort = PacPort;
             Properties.Settings.Default.UseProxy = UseProxy;
@@ -47,6 +51,7 @@
 
         public static bool ForceIp { get; set; } = false;
         public static string IpAddress { get; set; } = string.Empty;
+        public static StringCollection IpAddressList { get; set; } = new StringCollection();
 
         public static bool UsePac { get; set; } = false;
         public static decimal PacPort = 3413;
