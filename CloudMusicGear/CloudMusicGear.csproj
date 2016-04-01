@@ -73,6 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="IPAddressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IPAddressForm.Designer.cs">
+      <DependentUpon>IPAddressForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,10 +87,14 @@
     </Compile>
     <Compile Include="NeteaseIdProcess.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="WebServer.cs" />
+    <EmbeddedResource Include="IPAddressForm.resx">
+      <DependentUpon>IPAddressForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

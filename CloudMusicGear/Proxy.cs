@@ -113,8 +113,10 @@ namespace CloudMusicGear
                     LogEntry($"Accessing URL {s.fullUrl}");
 
                     // It should include album / playlist / artist / search pages.
-                    if (path.StartsWith("/eapi/v3/song/detail/") || path.StartsWith("/eapi/v1/album/") || path.StartsWith("/eapi/v3/playlist/detail") ||
-                        path.StartsWith("/eapi/batch") || path.StartsWith("/eapi/cloudsearch/pc") || path.StartsWith("/eapi/v1/artist") ||
+                    if (path.StartsWith("/eapi/v3/song/detail/") || path.StartsWith("/eapi/v1/album/") ||
+                        path.StartsWith("/eapi/v3/playlist/detail") ||
+                        path.StartsWith("/eapi/batch") || path.StartsWith("/eapi/cloudsearch/pc") ||
+                        path.StartsWith("/eapi/v1/artist") ||
                         path.StartsWith("/eapi/v1/search/get") || path.StartsWith("/eapi/song/enhance/privilege") ||
                         path.StartsWith("/eapi/v1/discovery/new/songs") || path.StartsWith("/eapi/v1/play/record"))
                     {
@@ -159,7 +161,8 @@ namespace CloudMusicGear
                         }
                         else
                         {
-                            LogEntry($"Playback bitrate is not changed. The song URL is {GetPlayResponseUrl(s.GetResponseBodyAsString())}");
+                            LogEntry(
+                                $"Playback bitrate is not changed. The song URL is {GetPlayResponseUrl(s.GetResponseBodyAsString())}");
                         }
                     }
 
@@ -209,9 +212,29 @@ namespace CloudMusicGear
                         }
                         else
                         {
-                            LogEntry($"Download bitrate is not changed. The song URL is {GetDownloadResponseUrl(s.GetResponseBodyAsString())}");
+                            LogEntry(
+                                $"Download bitrate is not changed. The song URL is {GetDownloadResponseUrl(s.GetResponseBodyAsString())}");
                         }
                     }
+                }
+            }
+            else
+            {
+                //LogEntry($"Error Occured: {url}, StatusCode: {responseStatusCode}");
+                if (path.EndsWith(".mp3") && Config.ForceIp)
+                {
+                    int? ipIndex = null;
+                    try
+                    {
+                        ipIndex = Config.IpAddressList.IndexOf(Config.IpAddress) + 1;
+                        if (ipIndex == Config.IpAddressList.Count) ipIndex = 0;
+                        }
+                    catch
+                    {
+                        if (Config.IpAddressList.Count > 0) ipIndex = 0;
+                    }
+                    if (ipIndex != null) Config.IpAddress = Config.IpAddressList[ipIndex.Value];
+                    LogEntry($"Cannot load song, Try another IP: {Config.IpAddress}");
                 }
             }
         }
