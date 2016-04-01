@@ -225,6 +225,7 @@ namespace CloudMusicGear
                         if (Config.IpAddressList.Count > 0) ipIndex = 0;
                     }
                     if (ipIndex != null) Config.IpAddress = Config.IpAddressList[ipIndex.Value];
+                    LogEntry($"Cannot load song, Try another IP: {Config.IpAddress}");
                 }
             }
         }

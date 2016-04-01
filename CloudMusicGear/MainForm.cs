@@ -43,13 +43,8 @@ namespace CloudMusicGear
 
         private void forceIp_CheckedChanged(object sender, EventArgs e)
         {
-            ipAddress.Enabled = forceIp.Checked;
+            chooseIPButton.Enabled = forceIp.Checked;
             Config.ForceIp = forceIp.Checked;
-        }
-
-        private void ipAddress_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Config.IpAddress = ipAddress.Text;
         }
 
         private void usePac_CheckedChanged(object sender, EventArgs e)
@@ -108,7 +103,6 @@ namespace CloudMusicGear
             downloadQuality.Text = Config.DownloadQuality;
 
             forceIp.Checked = Config.ForceIp;
-            ipAddress.Text = Config.IpAddress;
 
             usePac.Checked = Config.UsePac;
             pacPortNum.Value = Config.PacPort;
@@ -187,6 +181,12 @@ namespace CloudMusicGear
         private void OnProgramStarted(object state, bool timeout)
         {
             MessageBox.Show("CloudMusicGear is already running.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void chooseIPButton_Click(object sender, EventArgs e)
+        {
+            var ipAddressForm = new IPAddressForm();
+            ipAddressForm.ShowDialog();
         }
     }
 }
